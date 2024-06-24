@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <style>
+        #slideshow {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="slideshow">
+        <img id="slideshow-image" src="" alt="Slideshow Image">
+    </div>
+
+    <script>
+        const backendUrl = 'https://script.google.com/macros/s/AKfycbymSvY2dnUlO0zLFmBeCHx6xiUFGK3Yf5n6SQep5YDDJ1zp-5J3SmmZxLII9ZPcbRsL/exec';
+        const updateInterval = 60000; // 1 Minute
+        const displayInterval = 10000; // 10 Sekunden
+        let imageUrls = [];
+        let currentImageIndex = 0;
+
+        async function fetchImages() {
+            try {
+                const response = await fetch(backendUrl);
+                const data = await response.json();
+                imageUrls = data.images;
+                currentImageIndex = 0;
+                showNextImage();
+            } catch (error) {
+                console.error('Error fetching images:', error);
+            }
+        }
+
+        function showNextImage() {
+            if (imageUrls.length === 0) return;
+            const imageUrl = imageUrls[currentImageIndex];
+            document.getElementById('slideshow-image').src = imageUrl;
+            currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+        }
+
+        setInterval(showNextImage, displayInterval);
+        setInterval(fetchImages, updateInterval);
+
+        fetchImages(); // Initial fetch
+    </script>
+</body>
+</html>
