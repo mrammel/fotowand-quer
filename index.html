@@ -75,20 +75,6 @@
             z-index: 1;
             transition: opacity 2s ease-in-out;
         }
-        #slideshow img {
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        #slideshow img.active {
-            opacity: 1;
-            z-index: 2;
-        }
         #shadow-frame {
             position: absolute;
             top: 0;
@@ -115,9 +101,7 @@
         </div>
     </div>
     <script>
-        const folderId = '17t-Qk9aTI2A5hwNEKp_y8mv5WUuENY--';
-        const apiKey = 'AIzaSyC8EjkrlWKpP_IJWiXC-an6i7u53Eh3a68';
-        const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType,thumbnailLink)`;
+        const url = 'https://github.com/mrammel/fotowand-quer/blob/main/netlify/functions/fetch-images.js';  // Hier die URL deiner Netlify Function einfügen
 
         let currentIndex = 0;
         const images = [];
@@ -155,7 +139,6 @@
                 };
                 img.onerror = (e) => {
                     console.error('Error loading image:', img.src, e);
-                    // Versuchen Sie es mit einer alternativen URL
                     img.src = `https://drive.google.com/uc?export=view&id=${file.id}`;
                     img.onerror = (e) => {
                         console.error('Error loading image with alternative URL:', img.src, e);
