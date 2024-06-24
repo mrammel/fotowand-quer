@@ -75,14 +75,19 @@
             z-index: 1;
             transition: opacity 2s ease-in-out;
         }
-        #frame {
-            width: 100%;
-            height: 100%;
+        #slideshow img {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
             position: absolute;
             top: 0;
             left: 0;
-            pointer-events: none;
-            z-index: 3;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #slideshow img.active {
+            opacity: 1;
+            z-index: 2;
         }
         #shadow-frame {
             position: absolute;
@@ -133,7 +138,7 @@
                 setTimeout(() => {
                     currentImage.classList.remove('fadeout');
                 }, 2000);
-            }, 5000);
+            }, 5000); // Change image every 5 seconds
         }
 
         function loadImage(file) {
@@ -143,13 +148,17 @@
                 img.src = `https://drive.google.com/thumbnail?id=${file.id}&sz=w1000`;
                 img.alt = file.name;
                 img.onload = () => {
+                    console.log(`Image loaded: ${img.src}`);
                     slideshow.appendChild(img);
                     images.push(img);
                     resolve();
                 };
-                img.onerror = () => {
+                img.onerror = (e) => {
+                    console.error('Error loading image:', img.src, e);
+                    // Versuchen Sie es mit einer alternativen URL
                     img.src = `https://drive.google.com/uc?export=view&id=${file.id}`;
                     img.onerror = (e) => {
+                        console.error('Error loading image with alternative URL:', img.src, e);
                         reject(e);
                     };
                 };
@@ -163,6 +172,7 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
+                console.log('Images fetched:', data);
 
                 const slideshow = document.getElementById('slideshow');
                 const loading = document.getElementById('loading');
