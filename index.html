@@ -107,6 +107,9 @@
         const apiUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType,thumbnailLink)`;
         const url = corsProxy + encodeURIComponent(apiUrl);
 
+        console.log("API URL: ", apiUrl);
+        console.log("Encoded URL: ", url);
+
         let currentIndex = 0;
         const images = [];
 
