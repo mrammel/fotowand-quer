@@ -105,7 +105,7 @@
         const folderId = '17t-Qk9aTI2A5hwNEKp_y8mv5WUuENY--';
         const apiKey = 'AIzaSyC8EjkrlWKp_P_IJWiXC-an6i7u53Eh3a68';
         const apiUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&key=${apiKey}&fields=files(id,name,mimeType,thumbnailLink)`;
-        const url = `${corsProxy}${encodeURIComponent(apiUrl)}`;
+        const url = corsProxy + encodeURIComponent(apiUrl);
 
         let currentIndex = 0;
         const images = [];
